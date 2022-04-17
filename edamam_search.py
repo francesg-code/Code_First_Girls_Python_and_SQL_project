@@ -5,8 +5,8 @@ import mysql.connector as mysql
 
 mydb = mysql.connect(
     host="localhost",
-    user="root",
-    password="132674root",
+    user="",
+    password="",
     port="3306",
     db="python_cookbook"
 )
@@ -22,7 +22,7 @@ def save_recipes(current_recipe):
     current_recipe_uri = current_recipe['uri']
     recipe_uri_hash = current_recipe_uri.rsplit('#')[1]
     print(recipe_uri_hash)
-    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_uri_hash}?app_id=942811b7&app_key=20f8a29b1db2ba3778c96bfeead61d12&type=public'
+    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_uri_hash}?app_id=&app_key=&type=public'
     result = requests.get(recipe_id_url)
     data = result.json()
 
