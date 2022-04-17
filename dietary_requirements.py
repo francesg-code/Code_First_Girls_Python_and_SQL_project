@@ -1,0 +1,41 @@
+options = {
+    "alcohol-cocktail": "Describes an alcoholic cocktail",
+    "alcohol-free": "No alcohol used or contained",
+    "celery-free": "Does not contain celery or derivatives",
+    "crustacean-free": "Does not contain crustaceans (shrimp, lobster etc.) or derivatives",
+    "dairy-free": "No dairy; no lactose",
+    "DASH": "Dietary Approaches to Stop Hypertension diet",
+    "egg-free": "No eggs or products containing eggs",
+    "fish-free": "No fish or fish derivatives",
+    "fodmap-free": "Does not contain FODMAP foods",
+    "gluten-free": "No ingredients containing gluten",
+    "immuno-supportive": "Recipes which fit a science-based approach to eating to strengthen the immune system",
+    "keto-friendly": "Maximum 7 grams of net carbs per serving",
+    "kidney-friendly": "Per serving – phosphorus less than 250 mg AND potassium less than 500 mg "
+                       "AND sodium less than 500 mg",
+    "kosher": "Contains only ingredients allowed by the kosher diet. H"
+              "owever it does not guarantee kosher preparation of the ingredients themselves",
+    "low-potassium": "Less than 150mg per serving",
+    "low-sugar": "No simple sugars – glucose, dextrose, galactose, fructose, sucrose, lactose, maltose",
+    "lupine-free": "Does not contain lupine or derivatives",
+    "Mediterranean": "Mediterranean diet",
+    "mollusk-free": "No mollusks",
+    "mustard-free": "Does not contain mustard or derivatives",
+    "No-oil-added": "No oil added except to what is contained in the basic ingredients",
+    "paleo": "Excludes what are perceived to be agricultural products; grains, legumes, dairy products, potatoes,"
+             " refined salt, refined sugar, and processed oils",
+    "peanut-free": "No peanuts or products containing peanuts",
+    "pecatarian": "Does not contain meat or meat based products, can contain dairy and fish",
+    "pork-free": "Does not contain pork or derivatives",
+    "red-meat-free": "Does not contain beef, lamb, pork, duck, goose, game, horse, and other types of red meat "
+                     "or products containing red meat.",
+    "sesame-free": "Does not contain sesame seed or derivatives",
+    "shellfish-free": "No shellfish or shellfish derivatives",
+    "soy-free": "No soy or products containing soy",
+    "sugar-conscious": "Less than 4g of sugar per serving",
+    "sulfite-free": "No Sulfites",
+    "tree-nut-free": "No tree nuts or products containing tree nuts",
+    "vegan": "No meat, poultry, fish, dairy, eggs or honey",
+    "vegetarian": "No meat, poultry, or fish",
+    "wheat-free": "No wheat, can have gluten though"
+}
