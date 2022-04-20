@@ -20,25 +20,75 @@ results_saved = []
 def save_recipes(current_recipe):
     """Make a seperate API request for the recipe that is to be saved, and adds those values to the database.  """
     current_recipe_uri = current_recipe['uri']
-    recipe_uri_hash = current_recipe_uri.rsplit('#')[1]
-    print(recipe_uri_hash)
-    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_uri_hash}?app_id=942811b7&app_key=20f8a29b1db2ba3778c96bfeead61d12&type=public'
+    recipe_hash = current_recipe_uri.rsplit('#')[1]
+    print(recipe_hash)
+    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_hash}?app_id=942811b7&app_key=20f8a29b1db2ba3778c96bfeead61d12&type=public'
     result = requests.get(recipe_id_url)
     data = result.json()
 
-    recipe_label = (data['recipe']['label'])
-    recipe_uri = (data['recipe']['uri'])
-    mycursor.execute("INSERT INTO recipes (recipe_uri, recipe_label) values (%s, %s)", (recipe_uri, recipe_label))
+    ingredient_ids = {}
 
+
+    recipe_label = (data['recipe']['label'])
+    #recipe_uri = (data['recipe']['uri'])
+    mycursor.execute("INSERT INTO recipes (recipe_hash, recipe_label) values (%s, %s)", (recipe_hash, recipe_label))
+    mycursor.execute(f"SELECT recipe_id FROM recipes WHERE recipe_hash = (\'{recipe_hash}\')")
+    recipe_ids = mycursor.fetchall()
+    print(recipe_ids)
     ingredient_items = data['recipe']['ingredients']
     length = len(ingredient_items)
     for i in range(length):
         recipe_ingredient = (ingredient_items[i]['food'])
-        mycursor.execute(f"INSERT IGNORE INTO ingredients (ingredient_label) values (\'{recipe_ingredient}\')")
-        ingredient_measurement = (ingredient_items[i]['quantity'])
-        mycursor.execute(f"INSERT IGNORE INTO measurement (measurement) values (\'{ingredient_measurement}\')")
-        ingredient_unit = (ingredient_items[i]['measure'])
-        mycursor.execute(f"INSERT IGNORE INTO units (unit) values (\'{ingredient_unit}\')")
+        mycursor.execute(f"INSERT IGNORE INTO ingredients (ingredient, recipe_hash) values (\'{recipe_ingredient}\', \'{recipe_hash}\')")
+        #recipe_id = mycursor.execute("SELECT recipe_id FROM recipes WHERE recipe_uri = ?", (recipe_hash))
+
+    for i in range(length):
+        recipe_ingredient = (ingredient_items[i]['food'])
+        mycursor.execute(f"SELECT ingredient_id FROM ingredients WHERE ingredient = \'{recipe_ingredient}\'")
+        id_result = mycursor.fetchall()
+        ingredient_ids[recipe_ingredient] = id_result
+    print(recipe_ids)
+    print(ingredient_ids)
+    mydb.commit()
+
+
+
+
+
+
+
+
+    # recipe_label = (data['recipe']['label'])
+    # #recipe_uri = (data['recipe']['uri'])
+    # mycursor.execute("INSERT INTO recipes (recipe_hash, recipe_label) values (%s, %s)", (recipe_uri_hash, recipe_label))
+    # description = data['recipe']['ingredientLines']
+    # description_str = ', '.join(description)
+    # mycursor.execute("INSERT IGNORE INTO recipe_ingredients (recipe_hash, description) values (%s, %s)", (recipe_uri_hash, description_str))
+    # mydb.commit()
+
+
+        #
+        #
+        # ingredient_measurement = (ingredient_items[i]['quantity'])
+        # mycursor.execute(f"INSERT IGNORE INTO measurements (measurement) values (\'{ingredient_measurement}\')")
+        # mydb.commit()
+        # # mycursor.execute("SELECT measurement_id FROM measurements")
+        # # measurement_id = mycursor.fetchall()
+        #
+        #
+        # ingredient_unit = (ingredient_items[i]['measure'])
+        # mycursor.execute(f"INSERT IGNORE INTO units (unit) values (\'{ingredient_unit}\')")
+        # mydb.commit()
+        # # mycursor.execute("SELECT unit_id FROM units")
+        # # unit_id = mycursor.fetchall()
+
+
+        # mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_id, unit_id )"
+        #                                       f" values (%s, %s, %s, %s)", (recipe_id, ingredient_id, measurement_id, unit_id))
+
+
+
+
 
 
        #ingredient_quantity = (ingredient_items[i]['quantity'])
@@ -64,7 +114,7 @@ def save_recipes(current_recipe):
 
 
 
-    mydb.commit()
+
 
 
 ingredient = input('Please enter one ingredient: ')
