@@ -1,32 +1,3 @@
-import requests
-from random import randint
-
-import mysql.connector as mysql
-
-mydb = mysql.connect(
-    host="localhost",
-    user="root",
-    password="132674root",
-    port="3306",
-    db="python_cookbook"
-)
-
-mycursor = mydb.cursor()
-
-recipe_ids = {}
-results_saved = []
-
-
-def save_recipes(current_recipe):
-    """Make a seperate API request for the recipe that is to be saved, and adds those values to the database.  """
-    current_recipe_uri = current_recipe['uri']
-    recipe_hash = current_recipe_uri.rsplit('#')[1]
-    print(recipe_hash)
-    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_hash}?app_id=942811b7&app_key=20f8a29b1db2ba3778c96bfeead61d12&type=public'
-    result = requests.get(recipe_id_url)
-    data = result.json()
-
-    ingredient_ids = {}
 
 
     recipe_label = (data['recipe']['label'])
