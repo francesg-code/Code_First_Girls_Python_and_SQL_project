@@ -2,8 +2,8 @@ import mysql.connector as mysql
 
 mydb = mysql.connect(
     host="localhost",
-    user="",
-    password="",
+    user="root",
+    password="132674root",
     port="3306",
     db="python_cookbook"
 )

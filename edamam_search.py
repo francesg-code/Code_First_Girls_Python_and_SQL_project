@@ -1,26 +1,99 @@
+import requests
+from random import randint
+
+import mysql.connector as mysql
+
+mydb = mysql.connect(
+    host="localhost",
+    user="root",
+    password="132674root",
+    port="3306",
+    db="python_cookbook"
+)
+
+mycursor = mydb.cursor()
+
+recipe_ids = {}
+results_saved = []
 
 
-    recipe_label = (data['recipe']['label'])
+def save_recipes(current_recipe):
+    """Make a seperate API request for the recipe that is to be saved, and adds those values to the database.  """
+    current_recipe_uri = current_recipe['uri']
+    recipe_hash = current_recipe_uri.rsplit('#')[1]
+    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_hash}?app_id=942811b7&app_key=20f8a29b1db2ba3778c96bfeead61d12&type=public'
+    recipe_uri_hash = current_recipe_uri.rsplit('#')[1]
+    recipe_id_url = f'https://api.edamam.com/api/recipes/v2/{recipe_uri_hash}?app_id=&app_key=&type=public'
+    result = requests.get(recipe_id_url)
+    data = result.json()
+
+    ingredient_ids = {}
+    measurement_ids = {}
+    unit_ids = {}
+    dietary_requirements_ids = {}
+
+    recipe_label = (current_recipe['label'])
     #recipe_uri = (data['recipe']['uri'])
     mycursor.execute("INSERT INTO recipes (recipe_hash, recipe_label) values (%s, %s)", (recipe_hash, recipe_label))
     mycursor.execute(f"SELECT recipe_id FROM recipes WHERE recipe_hash = (\'{recipe_hash}\')")
-    recipe_ids = mycursor.fetchall()
-    print(recipe_ids)
-    ingredient_items = data['recipe']['ingredients']
+    recipe_id = mycursor.fetchall()
+    print(recipe_id)
+    ingredient_items = current_recipe['ingredients']
     length = len(ingredient_items)
     for i in range(length):
         recipe_ingredient = (ingredient_items[i]['food'])
-        mycursor.execute(f"INSERT IGNORE INTO ingredients (ingredient, recipe_hash) values (\'{recipe_ingredient}\', \'{recipe_hash}\')")
-        #recipe_id = mycursor.execute("SELECT recipe_id FROM recipes WHERE recipe_uri = ?", (recipe_hash))
+        mycursor.execute(f"INSERT IGNORE INTO ingredients (ingredient) values (\'{recipe_ingredient}\')")
 
     for i in range(length):
         recipe_ingredient = (ingredient_items[i]['food'])
         mycursor.execute(f"SELECT ingredient_id FROM ingredients WHERE ingredient = \'{recipe_ingredient}\'")
-        id_result = mycursor.fetchall()
-        ingredient_ids[recipe_ingredient] = id_result
-    print(recipe_ids)
-    print(ingredient_ids)
+        ingredient_id_result = mycursor.fetchall()
+        ingredient_ids[recipe_ingredient] = ingredient_id_result
+
+    for i in range(length):
+        recipe_ingredient = (ingredient_items[i]['quantity'])
+        mycursor.execute(f"INSERT IGNORE INTO measurements (measurement) values (\'{recipe_ingredient}\')")
+
+    for i in range(length):
+        recipe_ingredient = (ingredient_items[i]['quantity'])
+        mycursor.execute(f"SELECT measurement_id FROM measurements WHERE measurement = \'{recipe_ingredient}\'")
+        measurement_id_result = mycursor.fetchall()
+        measurement_ids[recipe_ingredient] = measurement_id_result
+
+    for i in range(length):
+        recipe_ingredient = (ingredient_items[i]['measure'])
+        mycursor.execute(f"INSERT IGNORE INTO units (unit) values (\'{recipe_ingredient}\')")
+
+    for i in range(length):
+        recipe_ingredient = (ingredient_items[i]['measure'])
+        mycursor.execute(f"SELECT unit_id FROM units WHERE unit = \'{recipe_ingredient}\'")
+        unit_id_result = mycursor.fetchall()
+        unit_ids[recipe_ingredient] = unit_id_result
+
+    print(f"Recipe ID: ", recipe_id)
+
+    print(f"Ingredient_ID :", ingredient_ids)
+    print("Mesasurmet IDS: ", measurement_ids)
+    print("Unit IDS: ", unit_ids)
     mydb.commit()
+
+    # for i in ingredient_ids.values():
+    #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id) values (\'{recipe_id}\', \'{i}\')")
+    #
+    # for m in measurement_ids.values():
+    #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, measurement_id) values (\'{recipe_id}\', \'{m}\')")
+    #
+    # for u in unit_ids.values():
+    #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, unit_id) values (\'{recipe_id}\', \'{u}\')")
+    #
+
+    maybe values saved to nested dict and then can loop over main dict e.g. for i in recipes[recipe][i]
+    for i in range(length):
+        mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_id) values (\'{recipe_id}\', \'{ingredient_ids[i]}\', \'{measurement_ids[i]}\', \'{unit_ids[i]}\'))")
+
+    mydb.commit()
+
+
 
 
 
