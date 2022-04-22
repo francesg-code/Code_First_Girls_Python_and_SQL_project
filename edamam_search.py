@@ -1,5 +1,6 @@
 import requests
 from random import randint
+import re
 
 import mysql.connector as mysql
 
@@ -27,17 +28,22 @@ def save_recipes(current_recipe):
     result = requests.get(recipe_id_url)
     data = result.json()
 
-    ingredient_ids = {}
-    measurement_ids = {}
-    unit_ids = {}
-    dietary_requirements_ids = {}
+    saved_recipes = {
+        'recipe': {
+            'recipe_id': ' ',
+            'ingredient_id': [],
+            'measurement_id': [],
+            'unit_id': []
+    }
+    }
 
     recipe_label = (current_recipe['label'])
     #recipe_uri = (data['recipe']['uri'])
     mycursor.execute("INSERT INTO recipes (recipe_hash, recipe_label) values (%s, %s)", (recipe_hash, recipe_label))
     mycursor.execute(f"SELECT recipe_id FROM recipes WHERE recipe_hash = (\'{recipe_hash}\')")
     recipe_id = mycursor.fetchall()
-    print(recipe_id)
+    for x in recipe_id:
+        saved_recipes['recipe']['recipe_id'] = x[0]
     ingredient_items = current_recipe['ingredients']
     length = len(ingredient_items)
     for i in range(length):
@@ -48,7 +54,8 @@ def save_recipes(current_recipe):
         recipe_ingredient = (ingredient_items[i]['food'])
         mycursor.execute(f"SELECT ingredient_id FROM ingredients WHERE ingredient = \'{recipe_ingredient}\'")
         ingredient_id_result = mycursor.fetchall()
-        ingredient_ids[recipe_ingredient] = ingredient_id_result
+        for x in ingredient_id_result:
+            saved_recipes['recipe']['ingredient_id'].append(x[0])
 
     for i in range(length):
         recipe_ingredient = (ingredient_items[i]['quantity'])
@@ -58,7 +65,8 @@ def save_recipes(current_recipe):
         recipe_ingredient = (ingredient_items[i]['quantity'])
         mycursor.execute(f"SELECT measurement_id FROM measurements WHERE measurement = \'{recipe_ingredient}\'")
         measurement_id_result = mycursor.fetchall()
-        measurement_ids[recipe_ingredient] = measurement_id_result
+        for x in measurement_id_result:
+            saved_recipes['recipe']['measurement_id'].append(x[0])
 
     for i in range(length):
         recipe_ingredient = (ingredient_items[i]['measure'])
@@ -68,15 +76,20 @@ def save_recipes(current_recipe):
         recipe_ingredient = (ingredient_items[i]['measure'])
         mycursor.execute(f"SELECT unit_id FROM units WHERE unit = \'{recipe_ingredient}\'")
         unit_id_result = mycursor.fetchall()
-        unit_ids[recipe_ingredient] = unit_id_result
+        for x in unit_id_result:
+            saved_recipes['recipe']['unit_id'].append(x[0])
 
-    print(f"Recipe ID: ", recipe_id)
+    print(saved_recipes)
 
-    print(f"Ingredient_ID :", ingredient_ids)
-    print("Mesasurmet IDS: ", measurement_ids)
-    print("Unit IDS: ", unit_ids)
+    recipe_id = saved_recipes['recipe']['recipe_id']
+
+    for i in range(length):
+        ingredient_id = saved_recipes['recipe']['ingredient_id'][i]
+        measurement_id = saved_recipes['recipe']['measurement_id'][i]
+        unit_id = saved_recipes['recipe']['unit_id'][i]
+        mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_id, unit_id) values (\'{recipe_id}\', \'{ingredient_id}\', \'{measurement_id}\', \'{unit_id}\')")
+
     mydb.commit()
-
     # for i in ingredient_ids.values():
     #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id) values (\'{recipe_id}\', \'{i}\')")
     #
@@ -87,11 +100,11 @@ def save_recipes(current_recipe):
     #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, unit_id) values (\'{recipe_id}\', \'{u}\')")
     #
 
-    maybe values saved to nested dict and then can loop over main dict e.g. for i in recipes[recipe][i]
-    for i in range(length):
-        mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_id) values (\'{recipe_id}\', \'{ingredient_ids[i]}\', \'{measurement_ids[i]}\', \'{unit_ids[i]}\'))")
-
-    mydb.commit()
+    # maybe values saved to nested dict and then can loop over main dict e.g. for i in recipes[recipe][i]
+    # for i in range(length):
+    #     mycursor.execute(f"INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_id) values (\'{recipe_id}\', \'{ingredient_ids[i]}\', \'{measurement_ids[i]}\', \'{unit_ids[i]}\'))")
+    #
+    # mydb.commit()
 
 
 
