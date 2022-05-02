@@ -1,9 +1,8 @@
 CREATE DATABASE python_cookbook;
 USE python_cookbook;
 
--- ------------------------------------------------------------------------------------
---Create tables.
--- ------------------------------------------------------------------------------------
+-- Create tables
+
 
 CREATE TABLE `recipes` (
   `recipe_id` int NOT NULL AUTO_INCREMENT,
