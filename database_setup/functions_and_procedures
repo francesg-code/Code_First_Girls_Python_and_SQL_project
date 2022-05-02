@@ -1,0 +1,34 @@
+-- Create view to show number of ingredients per recipe
+
+CREATE VIEW numIngredients AS
+SELECT recipe_id, COUNT(recipe_id) AS total_ingredients
+FROM recipe_ingredients
+GROUP BY recipe_id;
+
+-- Create 'recipeLevel' stored function to grade the complexity of the recipes based on the number of ingredients needed.
+
+DELIMITER $$
+
+CREATE FUNCTION recipeLevel(
+	total_ingredients INT
+) 
+RETURNS varchar(20)    
+DETERMINISTIC
+BEGIN
+	DECLARE recipeLevel VARCHAR(20);
+    
+    IF total_ingredients > 9 THEN
+			SET recipeLevel = 'COMPLEX';
+	ELSEIF (total_ingredients <= 9 AND
+			total_ingredients >= 5) THEN
+		SET recipeLevel = 'MEDIUM';
+	ELSEIF total_ingredients < 5 THEN
+		SET recipeLevel = 'SIMPLE';
+	END IF;
+    
+		RETURN (recipeLevel);
+    
+END $$
+
+DELIMITER :
+
