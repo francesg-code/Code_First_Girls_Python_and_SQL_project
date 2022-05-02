@@ -4,8 +4,8 @@ import edamam_search
 
 # Please add 'app_id' and 'add_key' credentials from your Edamam account:
 # https://developer.edamam.com/edamam-recipe-api
-app_id = '942811b7'
-app_key = '20f8a29b1db2ba3778c96bfeead61d12'
+app_id = ''
+app_key = ''
 choices = []
 recipes_found = False
 response_code = 000
@@ -110,15 +110,16 @@ def recipe_search_is_on():
     for result in results:
         current_recipe = result['recipe']
         print(f"Recipe: {current_recipe['label']}, \n{current_recipe['url'],}\n{current_recipe['ingredientLines']} \n")
-        choice = input('Would you like to save this recipe? yes/no or type \'q\' to quit: ')
+        choice = input('Would you like to save this recipe? Please type yes/no, or press \'q\' to quit the current search: ')
         if choice.lower() == 'yes':
-            edamam_search.save_recipes(current_recipe)
+            edamam_search.save_recipes(current_recipe, choices)
         elif choice.lower() == 'q':
-            break
+            try_again = input('Would you like to try searching again? yes/no ')
+            search_again(try_again)
+
 
 recipe_search_is_on()
 
-#print(f"Recipe saved: {recipe_api_request.current_recipe['label']}")
 
 
 
