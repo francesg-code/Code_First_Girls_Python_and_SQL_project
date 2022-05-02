@@ -1,0 +1,40 @@
+The stored functions and procedures referenced here are provided in the functions_and_procedures.sql file.
+
+# Query to run the 'recipeLevel' stored function. 
+
+SELECT
+	recipe_id,
+    recipeLevel(total_ingredients)
+FROM
+	numingredients
+ORDER BY
+	recipe_ID;
+  
+---
+  
+# Query to run the 'selectAllRecipes' stored procedure. The below selects recipes containing banana.
+
+CALL selectAllRecipes('banana');
+
+---
+
+# Query to select all vegan recipes.
+
+SELECT recipe_id
+FROM recipe_dietary_req
+WHERE dietary_requirement_id =
+(SELECT dietary_requirement_id
+FROM dietary_requirements
+WHERE dietary_requirement = 'vegan');
+
+---
+
+# Query to select recipes with a certain number of ingredients. The below selects recipes with three or fewer ingredients.
+
+SELECT recipe_id
+FROM recipe_ingredients
+GROUP BY(recipe_id)
+HAVING COUNT(ingredient_id) <=3;
+
+---
+
