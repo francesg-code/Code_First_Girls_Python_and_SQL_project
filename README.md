@@ -17,8 +17,6 @@ This project helps with those times when there's not much in the fridge and it's
 ![Example recipe search and save to database](./screenshot_overview.png)
 
 
-![Example recipe search and save to database](./screenshot.png)
-
 ## Setup
 
 Please add 'app_id' and 'add_key' credentials from your Edamam account to the recipe_api_request.py file:
