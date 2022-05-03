@@ -17,11 +17,9 @@ This project was created as part of the Code First Girls SQL and Database course
 
 ## Screenshots
 
-![Example search and save] (./coconut_cake_example.png)
-![Database diagram](./database_setup/database_diagram.png)
+![Example of a recipe and its ingredients](./coconut_cake_example.png)
 
-Screenshot of choosing dietray requirements and how that is saved with recipe in db
-<!-- If you have screenshots you'd like to share, include them here. -->
+![Example of a recipe and dietary requirements](./strawberries_dietary_requirements_example.png)
 
 
 ## Setup
