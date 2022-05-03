@@ -1,5 +1,5 @@
 # Stop Staring at the Fridge! 👀👀 Search and save recipes.
-This project was created as part of the Code First Girls SQL and Database course. It builds on [a console app](https://github.com/francesg-code/recipeSearch) I created as part of a Code First Girls python course. The user can now save recipes found using the [Edamam API](https://www.edamam.com/) to a database.
+This project was created as part of the Code First Girls SQL and Database course. It builds on [a console app](https://github.com/francesg-code/recipeSearch) I created as part of a [Code First Girls Python course](https://codefirstgirls.com/courses/classes/career-switcher/). The user can now save recipes found using the [Edamam API](https://www.edamam.com/) to a database.
 
 ## General Information
 This project helps with those times when there's not much in the fridge and it's difficult to decide what to make. Users can search for recipes based on the ingredient they have and filter those recipes by any dietary requirements too. Each recipe result contains a link to the recipe's webpage, and a brief summary of the other ingredients needed. The recipe can be saved to a personal database. As the user's database grows, they can search their own saved recipes using different criteria such as dietary requirements or complexity.
