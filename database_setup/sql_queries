@@ -29,13 +29,25 @@ WHERE dietary_requirement = 'vegan');
 
 ---
 
-# Create view to show the dietary requirements associated with a particular recipe. The below pulls results for recipe_id 175.
+# Create view to show the ingredients for a recipe. The below pulls results for recipe_id 176. Please see [Stawberry Shake example]() screenshot for reference.
 
-CREATE VIEW macerated_strawberries_dietary_requirements AS
+CREATE VIEW strawberry_shake AS
+SELECT recipe_ingredients.recipe_id, recipes.recipe_label, recipe_ingredients.ingredient_id, recipe_ingredients.measurement_id, recipe_ingredients.unit_id,  ingredients.ingredient, measurements.measurement, units.unit, recipes.recipe_url
+FROM recipe_ingredients
+INNER JOIN ingredients ON (recipe_ingredients.ingredient_id = ingredients.ingredient_id) AND (recipe_ingredients.recipe_id = 176)
+INNER JOIN measurements ON (recipe_ingredients.measurement_id = measurements.measurement_id) AND (recipe_ingredients.recipe_id = 176)
+INNER JOIN units ON (recipe_ingredients.unit_id = units.unit_id) AND (recipe_ingredients.recipe_id = 176)
+INNER JOIN recipes ON (recipe_ingredients.recipe_id = recipes.recipe_id) AND (recipe_ingredients.recipe_id = 176)
+
+---
+
+# Create view to show the dietary requirements associated with a particular recipe. The below pulls results for recipe_id 176.
+
+CREATE VIEW stawberry_shake_dietary_requirements AS
 SELECT recipe_dietary_req.recipe_id, recipes.recipe_label, recipes.recipe_url, dietary_requirements.dietary_requirement
 FROM recipe_dietary_req
-INNER JOIN dietary_requirements ON (recipe_dietary_req.dietary_requirement_id = dietary_requirements.dietary_requirement_id) AND (recipe_dietary_req.recipe_id = 175)
-INNER JOIN recipes ON (recipe_dietary_req.recipe_id = recipes.recipe_id) AND (recipe_dietary_req.recipe_id = 175)
+INNER JOIN dietary_requirements ON (recipe_dietary_req.dietary_requirement_id = dietary_requirements.dietary_requirement_id) AND (recipe_dietary_req.recipe_id = 176)
+INNER JOIN recipes ON (recipe_dietary_req.recipe_id = recipes.recipe_id) AND (recipe_dietary_req.recipe_id = 176)
 
 ---
 
