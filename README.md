@@ -31,4 +31,4 @@ Please see the database_setup/create-db.sql file for creating the database in My
 The database connection details for your database will need to be inputted in the mydb section of the edamam_search.py file.
 
 ## Acknowledgements
-Many thanks to ![Code First Girls] (https://codefirstgirls.com/) for their courses and the encouragement to create my own projects.
+Many thanks to ![Code First Girls](https://codefirstgirls.com/) for their courses and the encouragement to create my own projects.
