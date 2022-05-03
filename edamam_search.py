@@ -106,7 +106,10 @@ def save_recipes(current_recipe, choices):
 
     mydb.commit()
 
-    print(f"Recipe '{recipe_label}' saved.\n")
+    print(f"""
+    -----------------------------------------------------
+    Recipe '{recipe_label}' saved.
+    -----------------------------------------------------\n""")
 
 
 
