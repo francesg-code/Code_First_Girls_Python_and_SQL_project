@@ -1,4 +1,5 @@
-# Stop Staring at the Fridge! 👀👀 Search and save recipes.
+# Stop Staring at the Fridge! 👀👀 
+# Search and save recipes.
 This project was created as part of the Code First Girls SQL and Database [course](https://codefirstgirls.com/courses/classes/career-switcher/). It builds on [a console app](https://github.com/francesg-code/recipeSearch) I created as part of a Code First Girls Python course. The user can now save recipes found using the [Edamam API](https://www.edamam.com/) to a database using mysql.connector.
 
 ## General Information
